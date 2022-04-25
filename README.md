@@ -55,7 +55,7 @@ This demo is for anyone who want to dockerize a ruby application and deploy it u
 
 **You will notice that the drkiq_1 container threw an error saying the database doesn’t exist. This is a completely normal error to expect when running a Rails application because we haven’t initialized the database yet.**
 
-**Just hit CTRL+C in the terminal to stop everything and run the following commands to initialize the database:**
+##### Just hit CTRL+C in the terminal to stop everything and run the following commands to initialize the database:
 
 ``` docker­-compose run drkiq rake db:reset ```
 
@@ -81,19 +81,19 @@ https://minikube.sigs.k8s.io/docs/start/
 
 ##### You should see the following
 
-deployment.apps/drkiq created
-persistentvolumeclaim/drkiq-postgres created
-persistentvolumeclaim/drkiq-redis created
-service/drkiq created
-configmap/env created
-deployment.apps/nginx created
-service/nginx created
-deployment.apps/postgres created
-secret/postgres-secret created
-service/postgres created
-deployment.apps/redis created
-service/redis created
-deployment.apps/sidekiq created
+deployment.apps/drkiq created <br />
+persistentvolumeclaim/drkiq-postgres created <br />
+persistentvolumeclaim/drkiq-redis created <br />
+service/drkiq created <br />
+configmap/env created <br />
+deployment.apps/nginx created <br />
+service/nginx created <br />
+deployment.apps/postgres created <br />
+secret/postgres-secret created <br />
+service/postgres created <br />
+deployment.apps/redis created <br />
+service/redis created <br />
+deployment.apps/sidekiq created <br />
 
 ##### One last thing like we did it before when using docker compose, we need to intiallize our database
 
