@@ -8,17 +8,17 @@ This demo is for anyone who want to dockerize a ruby application and deploy it u
 
 ### Building Docker Images
 
-1. Build application image
+1. Build application image:
 
 ``` docker build . -f Dockerfile.production ```
 
-2. Build nginx image
+2. Build nginx image:
 
 ``` docker build . -f Dockerfile.nginx ```
 
 ### Pushing docker images to dockerhub
 
-1. For our application images
+1. For our application images:
 
 ``` docker tag image-id DOCKER_HUB_USERNAME/APP_NAME ```
 
@@ -28,7 +28,7 @@ This demo is for anyone who want to dockerize a ruby application and deploy it u
 >
 ``` docker push beshlawy38/drkiq:prod ```
 
-2. For nginx image
+2. For nginx image:
 
 ``` docker tag image-id DOCKER_HUB_USERNAME/APP_NAME  ```
 
@@ -42,14 +42,14 @@ This demo is for anyone who want to dockerize a ruby application and deploy it u
 
 ##### First we need to change few things:
 
-1. Change the created images in the docker compose file
-2. Create the needed volumes
+1. Change the created images in the docker compose file.
+2. Create the needed volumes.
 
  ``` docker volume create --name drkiq-postgres  ```
 
  ``` docker volume create --name drkiq-redis  ```
 
-##### Then we run 
+##### Then we run: 
 
  ``` docker-compose up  ```
 
@@ -69,17 +69,17 @@ This demo is for anyone who want to dockerize a ruby application and deploy it u
 
 ### Deploying our application using Kubernetes
 
-##### I'm using minikube. You can use the following link to install minikube on your machine
+##### I'm using minikube. You can use the following link to install minikube on your machine.
 
 https://minikube.sigs.k8s.io/docs/start/
 
-##### We need to run the following commands
+##### We need to run the following commands:
 
 ``` cd k8s ```
 
 ``` kubectl apply -f . ```
 
-##### You should see the following
+##### You should see the following:
 
 deployment.apps/drkiq created <br />
 persistentvolumeclaim/drkiq-postgres created <br />
@@ -95,7 +95,7 @@ deployment.apps/redis created <br />
 service/redis created <br />
 deployment.apps/sidekiq created <br />
 
-##### One last thing like we did it before when using docker compose, we need to intiallize our database
+##### One last thing like we did it before when using docker compose, we need to intiallize our database:
 
 ``` kubectl exec drkiq-pod-id -it -- rake db:reset ```
 
