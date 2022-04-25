@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: nginx
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: nginx
+  template:
+    metadata:
+      labels:
+        service: nginx
+    spec:
+      containers:
+        - image: beshlawy38/drkiq-nginx
+          name: nginx
+          ports:
+            - containerPort: 8020
+      restartPolicy: Always

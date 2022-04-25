@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: sidekiq
+  name: sidekiq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: sidekiq
+  template:
+    metadata:
+      labels:
+        service: sidekiq
+    spec:
+      containers:
+        - env:
+            - name: CACHE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: CACHE_URL
+                  name: env
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: DATABASE_URL
+                  name: env
+            - name: GROUP_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: GROUP_ID
+                  name: env
+            - name: JOB_WORKER_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: JOB_WORKER_URL
+                  name: env
+            - name: LISTEN_ON
+              valueFrom:
+                configMapKeyRef:
+                  key: LISTEN_ON
+                  name: env
+            - name: SECRET_TOKEN
+              valueFrom:
+                configMapKeyRef:
+                  key: SECRET_TOKEN
+                  name: env
+            - name: USER_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: USER_ID
+                  name: env
+            - name: WORKER_PROCESSES
+              valueFrom:
+                configMapKeyRef:
+                  key: WORKER_PROCESSES
+                  name: env
+          image: beshlawy38/drkiq:prod
+          name: sidekiq
+          command: ["bundle", "exec", "sidekiq"] 
+      restartPolicy: Always
