@@ -4,4 +4,4 @@ This demo is for anyone who want to dockerize a ruby application and deploy it u
 
 ### Our Application Architecture
 
-![] (/architecure.png)
+![alt text] (https://github.com/Mohamedelbeshlawy/ruby-app-deployment/blob/main/architecure.png)
