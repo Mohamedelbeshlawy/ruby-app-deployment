@@ -10,76 +10,76 @@ This demo is for anyone who want to dockerize a ruby application and deploy it u
 
 1. Build application image
 
-> docker build . -f Dockerfile.production
+``` docker build . -f Dockerfile.production ```
 
 2. Build nginx image
 
-> docker build . -f Dockerfile.nginx
+``` docker build . -f Dockerfile.nginx ```
 
-### Pushing docker images to dockerhub or any other registry
+### Pushing docker images to dockerhub
 
 1. For our application images
 
-> docker tag image-id DOCKER_HUB_USERNAME/APP_NAME
+``` docker tag image-id DOCKER_HUB_USERNAME/APP_NAME ```
 
-In my case
+**In my case**
 
-> docker tag f49520733145 beshlawy38/drkiq:prod
+``` docker tag f49520733145 beshlawy38/drkiq:prod ```
 >
-> docker push beshlawy38/drkiq:prod
+``` docker push beshlawy38/drkiq:prod ```
 
 2. For nginx image
 
-> docker tag image-id DOCKER_HUB_USERNAME/APP_NAME
+``` docker tag image-id DOCKER_HUB_USERNAME/APP_NAME  ```
 
-In my case
+**In my case**
 
-> docker tag f5212300d67f beshlawy38/drkiq-nginx
+``` docker tag f5212300d67f beshlawy38/drkiq-nginx  ```
 >
-> docker push beshlawy38/drkiq:drkiq-nginx
+``` docker push beshlawy38/drkiq:drkiq-nginx  ```
 
 ### Deploying our application using docker compose
 
-###### First we need to change few things:
+##### First we need to change few things:
 
 1. Change the created images in the docker compose file
 2. Create the needed volumes
 
-> docker volume create --name drkiq-postgres
->
-> docker volume create --name drkiq-redis
+ ``` docker volume create --name drkiq-postgres  ```
 
-###### Then we run 
+ ``` docker volume create --name drkiq-redis  ```
 
-> docker-compose up
+##### Then we run 
 
-###### You will notice that the drkiq_1 container threw an error saying the database doesn’t exist. This is a completely normal error to expect when running a Rails application because we haven’t initialized the database yet.
+ ``` docker-compose up  ```
 
-Just hit CTRL+C in the terminal to stop everything and run the following commands to initialize the database:
+##### You will notice that the drkiq_1 container threw an error saying the database doesn’t exist. This is a completely normal error to expect when running a Rails application because we haven’t initialized the database yet.
 
-> docker­-compose run drkiq rake db:reset
+**Just hit CTRL+C in the terminal to stop everything and run the following commands to initialize the database:**
 
-> docker­-compose run drkiq rake db:migrate
+``` docker­-compose run drkiq rake db:reset ```
 
-> docker-compose up
+``` docker­-compose run drkiq rake db:migrate  ```
+
+``` docker-compose up  ```
 
 ### Testing docker compose deployment
 
-> http://localhost:8020
+``` http://localhost:8020 ```
 
 ### Deploying our application using Kubernetes
 
-###### I'm using minikube. You can use the following link to install minikube on your machine
+##### I'm using minikube. You can use the following link to install minikube on your machine
 
 https://minikube.sigs.k8s.io/docs/start/
 
-###### We need to run the following commands
+##### We need to run the following commands
 
-> cd k8s
->
-> kubectl apply -f .
+``` cd k8s ```
 
-###### You should see the following
+``` kubectl apply -f . ```
+
+##### You should see the following
 
 deployment.apps/drkiq created
 
@@ -107,17 +107,17 @@ service/redis created
 
 deployment.apps/sidekiq created
 
-###### One last thing like we did it before when using docker compose, we need to intiallize our database
+##### One last thing like we did it before when using docker compose, we need to intiallize our database
 
-> kubectl exec drkiq-pod-id -it -- rake db:reset
+``` kubectl exec drkiq-pod-id -it -- rake db:reset ```
 
-> kubectl exec drkiq-pod-id -it -- rake db:migrate
+``` kubectl exec drkiq-pod-id -it -- rake db:migrate ```
 
 ### Testing kubernetes deployment
 
-> kubectl port-forward svc/nginx 8020:8020
+``` kubectl port-forward svc/nginx 8020:8020 ```
 
-> http://localhost:8020
+``` http://localhost:8020 ```
 
 ### Reference
 
