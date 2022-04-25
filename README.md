@@ -4,4 +4,121 @@ This demo is for anyone who want to dockerize a ruby application and deploy it u
 
 ### Our Application Architecture
 
-![alt text] (https://github.com/Mohamedelbeshlawy/ruby-app-deployment/blob/main/architecure.png)
+![ ](https://wpblog.semaphoreci.com/wp-content/uploads/2020/02/Getting-Started.png)
+
+### Building Docker Images
+
+1. Build application image
+
+> docker build . -f Dockerfile.production
+
+2. Build nginx image
+
+> docker build . -f Dockerfile.nginx
+
+### Pushing docker images to dockerhub or any other registry
+
+1. For our application images
+
+> docker tag image-id DOCKER_HUB_USERNAME/APP_NAME
+
+In my case
+
+> docker tag f49520733145 beshlawy38/drkiq:prod
+>
+> docker push beshlawy38/drkiq:prod
+
+2. For nginx image
+
+> docker tag image-id DOCKER_HUB_USERNAME/APP_NAME
+
+In my case
+
+> docker tag f5212300d67f beshlawy38/drkiq-nginx
+>
+> docker push beshlawy38/drkiq:drkiq-nginx
+
+### Deploying our application using docker compose
+
+###### First we need to change few things:
+
+1. Change the created images in the docker compose file
+2. Create the needed volumes
+
+> docker volume create --name drkiq-postgres
+>
+> docker volume create --name drkiq-redis
+
+###### Then we run 
+
+> docker-compose up
+
+###### You will notice that the drkiq_1 container threw an error saying the database doesn’t exist. This is a completely normal error to expect when running a Rails application because we haven’t initialized the database yet.
+
+Just hit CTRL+C in the terminal to stop everything and run the following commands to initialize the database:
+
+> docker­-compose run drkiq rake db:reset
+
+> docker­-compose run drkiq rake db:migrate
+
+> docker-compose up
+
+### Testing docker compose deployment
+
+> http://localhost:8020
+
+### Deploying our application using Kubernetes
+
+###### I'm using minikube. You can use the following link to install minikube on your machine
+
+https://minikube.sigs.k8s.io/docs/start/
+
+###### We need to run the following commands
+
+> cd k8s
+>
+> kubectl apply -f .
+
+###### You should see the following
+
+deployment.apps/drkiq created
+
+persistentvolumeclaim/drkiq-postgres created
+
+persistentvolumeclaim/drkiq-redis created
+
+service/drkiq created
+
+configmap/env created
+
+deployment.apps/nginx created
+
+service/nginx created
+
+deployment.apps/postgres created
+
+secret/postgres-secret created
+
+service/postgres created
+
+deployment.apps/redis created
+
+service/redis created
+
+deployment.apps/sidekiq created
+
+###### One last thing like we did it before when using docker compose, we need to intiallize our database
+
+> kubectl exec drkiq-pod-id -it -- rake db:reset
+
+> kubectl exec drkiq-pod-id -it -- rake db:migrate
+
+### Testing kubernetes deployment
+
+> kubectl port-forward svc/nginx 8020:8020
+
+> http://localhost:8020
+
+### Reference
+
+https://semaphoreci.com/community/tutorials/dockerizing-a-ruby-on-rails-application
